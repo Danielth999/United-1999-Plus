@@ -48,10 +48,10 @@ const Navbar = () => {
           <li className="flex items-center space-x-2">
             <Mail className="text-[#204d9c]" />
             <a
-              href="mailto:kasuto9481@gmail.com"
+              href="mailto:dbunited1999@gmail.com"
               className="text-[#204d9c] font-bold"
             >
-              kasuto9481@gmail.com
+              test@gmail.com
             </a>
           </li>
           <li className="flex items-center space-x-2">
