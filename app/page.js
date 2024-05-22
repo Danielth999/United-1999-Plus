@@ -10,16 +10,18 @@ export default function Home() {
       <header>
         <Navbar />
       </header>
-      <main>
-        <Carousel />
+      <div className="container mx-auto">
+        <main>
+          <Carousel />
 
-        <section>
-          <Category />
-        </section>
-        <section>
-          <Product />
-        </section>
-      </main>
+          <section>
+            <Category />
+          </section>
+          <section>
+            <Product />
+          </section>
+        </main>
+      </div>
       <footer>
         <Footer />
       </footer>
