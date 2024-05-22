@@ -186,11 +186,7 @@ const Navbar = () => {
                   สมัครสมาชิก
                 </span>
               </Link>
-              <Link href="/contact">
-                <span className="block px-3 py-2 rounded-md text-base font-medium text-[#204d9c] hover:bg-gray-100">
-                  ติดต่อ
-                </span>
-              </Link>
+             
               <Link href="/about">
                 <span className="block px-3 py-2 rounded-md text-base font-medium text-[#204d9c] hover:bg-gray-100">
                   เกี่ยวกับเรา
