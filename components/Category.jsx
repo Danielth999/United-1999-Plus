@@ -37,10 +37,10 @@ const Category = () => {
 
   return (
     <>
-      <div  >
-        <h1 className="font-bold text-white text-center">ผลิตภัณฑ์ของเรา</h1>
+      <div className="mt-10 md:mt-5" >
+        <h1 className="font-bold text-black text-center">ผลิตภัณฑ์ของเรา</h1>
       </div>
-      <div className="mt-5">
+      <div className="md:mt-5">
         {/* Carousel for small screens */}
         <div className="block sm:hidden">
           <Slider {...settings}>

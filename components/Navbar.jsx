@@ -12,6 +12,8 @@ import {
   CircleUser,
   Menu,
   X,
+  KeyRound,
+  UserRound,
 } from "lucide-react";
 
 import {
@@ -39,7 +41,7 @@ const Navbar = () => {
   return (
     <>
       {/* Header section */}
-      <header className="md:border-b md:py-1 md:mx-4 hidden md:flex md:justify-end">
+      <header className="md:border-b md:py-1 md:px-4 hidden md:flex md:justify-end">
         <ul className="flex items-center space-y-2 md:space-y-0 md:space-x-4">
           <li className="flex items-center space-x-2">
             <Phone className="text-[#204d9c]" />
@@ -157,8 +159,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center outline-none text-[#204d9c] font-bold px-2 py-2 rounded-lg hover:bg-slate-100">
-                  <LayoutGrid className="text-[#204d9c] mr-1" />
+                <DropdownMenuTrigger className="flex items-center outline-none text-[#204d9c]  px-2 py-2 rounded-lg hover:bg-slate-100">
                   <span>หมวดหมู่</span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white shadow-lg rounded-md mt-2 p-2">
@@ -190,7 +191,7 @@ const Navbar = () => {
                 </span>
               </Link>
               <Link href="/register">
-                <span className="block px-3 py-2 rounded-md text-base font-medium text-[#204d9c] hover:bg-gray-100">
+                <span className="space-x-2 flex px-3 py-2 rounded-md text-base font-medium text-[#204d9c] hover:bg-gray-100">
                   สมัครสมาชิก
                 </span>
               </Link>

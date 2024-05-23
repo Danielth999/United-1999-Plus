@@ -1,12 +1,12 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
+import Link from "next/link";
 const LoginPage = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex justify-center mt-10">
         <div className="max-w-md w-full bg-white shadow-lg rounded-md p-8">
           <h2 className="text-3xl font-bold mb-6 text-center">เข้าสู่ระบบ</h2>
           <form className="space-y-4">
@@ -35,6 +35,10 @@ const LoginPage = () => {
             </div>
             <div className="text-center text-gray-600">
               <a href="#" className="underline">ลืมรหัสผ่าน?</a>
+              <div>
+              <span>ยังไม่ได้เป็นสมาชิก ? <Link className="underline hover:text-blue-600" href={'/register'}>สมัครสมาชิก</Link></span>
+
+              </div>
             </div>
           </form>
         </div>

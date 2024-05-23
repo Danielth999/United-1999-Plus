@@ -24,7 +24,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="w-full mx-auto rounded-lg overflow-hidden ">
+    <div className="w-full mx-auto rounded-lg overflow-hidden mt-10 ">
       <Slider {...settings}>
         {images.map((image, index) => (
           <div
