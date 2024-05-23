@@ -43,7 +43,12 @@ const Navbar = () => {
         <ul className="flex items-center space-y-2 md:space-y-0 md:space-x-4">
           <li className="flex items-center space-x-2">
             <Phone className="text-[#204d9c]" />
-            <span className="text-[#204d9c] font-bold">098-765-fdก432</span>
+            <Link
+              className="text-[#204d9c] font-bold"
+              href={"tel:098-765-1234"}
+            >
+              098-765-1234
+            </Link>
           </li>
           <li className="flex items-center space-x-2">
             <Mail className="text-[#204d9c]" />
@@ -125,7 +130,10 @@ const Navbar = () => {
 
           {/* Search Icon for mobile */}
           <div className="flex md:hidden items-center space-x-4">
-            <button onClick={() => setSearchOpen(!searchOpen)} className="text-[#204d9c]">
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="text-[#204d9c]"
+            >
               <Search />
             </button>
           </div>
@@ -186,7 +194,7 @@ const Navbar = () => {
                   สมัครสมาชิก
                 </span>
               </Link>
-             
+
               <Link href="/about">
                 <span className="block px-3 py-2 rounded-md text-base font-medium text-[#204d9c] hover:bg-gray-100">
                   เกี่ยวกับเรา

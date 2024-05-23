@@ -13,7 +13,6 @@ export default function Home() {
       <div className="container mx-auto">
         <main>
           <Carousel />
-
           <section>
             <Category />
           </section>
