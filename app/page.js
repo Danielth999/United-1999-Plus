@@ -4,7 +4,6 @@ import Category from "@/components/Category";
 import Recomend from "@/components/product/Recomend";
 import BestSeller from "@/components/product/BestSeller";
 import Content from "@/components/Content";
-import Feedback from "@/components/Feedback";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -32,9 +31,7 @@ export default function Home() {
         <section>
           <Content />
         </section>
-        <section>
-          <Feedback />
-        </section>
+      
       </div>
       <footer>
         <Footer />

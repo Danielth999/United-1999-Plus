@@ -5,8 +5,7 @@ import Navbar from "@/components/nav/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 const RegisterPage = () => {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");

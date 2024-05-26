@@ -13,20 +13,39 @@ export const authOptions = {
       credentials: {},
       async authorize(credentials, req) {
         if (!credentials) return null;
+
+        // Find the user by email
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
+          include: {
+            roles: {
+              include: {
+                role: true,
+              },
+            },
+          },
         });
 
-        if (user && (await bcrypt.compare(credentials.password, user.password))) {
-          return {
-            id: user.id,
-            username: user.username, // เปลี่ยนจาก user: user.username เป็น username
-            email: user.email,
-            role: user.role, // assuming user.role exists
-          };
-        } else {
-          throw new Error("Invalid email or password");
+        if (!user) {
+          console.error("User not found");
+          throw new Error("User not found");
         }
+
+        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+
+        if (!isPasswordValid) {
+          console.error("Invalid password");
+          throw new Error("Invalid password");
+        }
+
+        const userRole = user.roles[0]?.role.roleName || null;
+
+        return {
+          id: user.userId,
+          username: user.username,
+          email: user.email,
+          role: userRole,
+        };
       },
     }),
   ],
@@ -38,7 +57,7 @@ export const authOptions = {
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
-        token.username = user.username; // ใช้คีย์เดียวกันกับ authorize
+        token.username = user.username;
         token.email = user.email;
         token.role = user.role;
       }
@@ -47,7 +66,7 @@ export const authOptions = {
     session: async ({ session, token }) => {
       if (session.user) {
         session.user.id = token.id;
-        session.user.username = token.username; // ใช้คีย์เดียวกันกับ jwt
+        session.user.username = token.username;
         session.user.email = token.email;
         session.user.role = token.role;
       }

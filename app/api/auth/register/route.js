@@ -16,7 +16,7 @@ export const POST = async (request) => {
     //hash password lenght = 10
     const hashedPassword = await bcrypt.hash(password, 10);
     // check email
-    const existingUser = await prisma.User.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: {
         email: email,
       },
@@ -39,6 +39,18 @@ export const POST = async (request) => {
         username,
         email,
         password: hashedPassword,
+      },
+    });
+    // ค้นหา role ที่มีชื่อเป็น 'member'
+    const memberRole = await prisma.role.findFirst({
+      where: { roleName: "member" },
+    });
+
+    // จากนั้นให้ prisma สร้างข้อมูลในตาราง userRole โดย role มาจาก memberRole และ userId มาจาก user ที่สร้างไว้
+    await prisma.userRole.create({
+      data: {
+        userId: user.userId,
+        roleId: memberRole.roleId,
       },
     });
 

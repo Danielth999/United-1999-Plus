@@ -8,27 +8,66 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  username  String
-  email     String    @unique
-  role      String    @default("member")
+  userId    Int            @id @default(autoincrement())
+  email     String         @unique
+  username  String         @unique
   password  String
-  createdAt DateTime  @default(now())
-  products  Product[]
+  roles     UserRole[]
+  favorites FavoriteItem[]
 }
 
-model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  categoryId  Int
-  userId      Int
-  category    Category @relation(fields: [categoryId], references: [id])
-  addedBy     User     @relation(fields: [userId], references: [id])
+model Role {
+  roleId   Int        @id @default(autoincrement())
+  roleName String
+  users    UserRole[]
+}
+
+model UserRole {
+  userRoleId Int  @id @default(autoincrement())
+  userId     Int
+  roleId     Int
+  user       User @relation(fields: [userId], references: [userId])
+  role       Role @relation(fields: [roleId], references: [roleId])
+
+  @@unique([userId, roleId])
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
+  categoryId    Int           @id @default(autoincrement())
+  name          String
+  subcategories Subcategory[]
+}
+
+model Subcategory {
+  subcategoryId Int       @id @default(autoincrement())
+  name          String
+  categoryId    Int
+  category      Category  @relation(fields: [categoryId], references: [categoryId])
+  products      Product[]
+
+  @@unique([name, categoryId])
+}
+
+model Product {
+  productId   Int    @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  stock       Int
+  imageUrl    String?
+  subcategoryId Int
+  subcategory   Subcategory    @relation(fields: [subcategoryId], references: [subcategoryId])
+  favorites     FavoriteItem[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model FavoriteItem {
+  favoriteId Int     @id @default(autoincrement())
+  userId     Int
+  productId  Int
+  user       User    @relation(fields: [userId], references: [userId])
+  product    Product @relation(fields: [productId], references: [productId])
+
+  @@unique([userId, productId])
 }

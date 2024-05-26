@@ -45,16 +45,11 @@ const Navbar = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   console.log(session);
-  // useEffect(() => {
-  //   if (status === "unauthenticated") {
-  //     router.push("/");
-  //   }
-  // }, [status, router]);
+
 
   return (
     <>
       <Header />
-
       {/* Navigation */}
       <nav className="bg-white shadow-md">
         <div className="container mx-auto flex flex-wrap items-center justify-between h-[80px] px-4 md:px-6">

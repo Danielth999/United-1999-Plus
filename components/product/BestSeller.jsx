@@ -10,8 +10,8 @@ const Recomend = () => {
       const res = await fetch("");
       const data = await res.json();
       setProduct(data);
-    } catch {
-      console.log("error");
+    } catch (error) {
+      console.log("error", error);  
     }
   };
 
