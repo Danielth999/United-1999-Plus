@@ -1,14 +1,18 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
 import Slider from "react-slick";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Image from "next/image";
+// image zone 
+import cate1 from '../public/category/package.png'
 
 const Category = () => {
   const menu = [
     {
       catename: "บรรจุภัณฑ์เฟสท์",
+      src: cate1,
       path: "/",
     },
     {
@@ -37,8 +41,8 @@ const Category = () => {
 
   return (
     <>
-      <div className="mt-10 md:mt-5" >
-        <h1 className="font-bold text-black text-center">ผลิตภัณฑ์ของเรา</h1>
+      <div className="mt-10 md:mt-5">
+        <h1 className="font-bold text-white text-center">ผลิตภัณฑ์ของเรา</h1>
       </div>
       <div className="md:mt-5">
         {/* Carousel for small screens */}
@@ -47,6 +51,7 @@ const Category = () => {
             {menu.map((item, index) => (
               <div key={index} className="p-4">
                 <div className="bg-[#f1f0ed] p-10 text-center rounded-md font-medium hover:shadow-2xl delay-100 transition-all ease-in-out duration-300">
+                  <Image href={item.src} width={200 } alt={item.catename} height={200}></Image>
                   <Link href={item.path} className="font-bold">
                     {item.catename}
                   </Link>

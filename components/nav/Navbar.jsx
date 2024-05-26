@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../public/logo/logo-real-no-bg.png";
+import logo from "../../public/logo/logo-real-no-bg.png";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import {
   Search,
   LayoutGrid,
@@ -25,7 +27,10 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuPortal,
   DropdownMenuSubContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import Header from "./Header";
 
 const menu = [
   { title: "ผลิตภัณฑ์เฟสท์", subMenu: ["ทดสอบ 1", "ทดสอบ 2", "ทดสอบ 3"] },
@@ -36,44 +41,19 @@ const menu = [
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  console.log(session);
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     router.push("/");
+  //   }
+  // }, [status, router]);
 
   return (
     <>
-      {/* Header section */}
-      <header className="md:border-b md:py-1 md:px-4 hidden md:flex md:justify-end">
-        <ul className="flex items-center space-y-2 md:space-y-0 md:space-x-4">
-          <li className="flex items-center space-x-2">
-            <Phone className="text-[#204d9c]" />
-            <Link
-              className="text-[#204d9c] font-bold"
-              href={"tel:098-765-1234"}
-            >
-              098-765-1234
-            </Link>
-          </li>
-          <li className="flex items-center space-x-2">
-            <Mail className="text-[#204d9c]" />
-            <a
-              href="mailto:dbunited1999@gmail.com"
-              className="text-[#204d9c] font-bold"
-            >
-              test@gmail.com
-            </a>
-          </li>
-          <li className="flex items-center space-x-2">
-            <MapPin className="text-[#204d9c]" />
-            <Link
-              target="_blank"
-              className="text-[#204d9c] font-bold"
-              href="https://maps.app.goo.gl/3Csiyy9qcEXeckLM8"
-            >
-              บริษัท ยูไนเต็ด1999 พลัซ จำกัด
-            </Link>
-          </li>
-        </ul>
-      </header>
-      {/* End header */}
+      <Header />
 
       {/* Navigation */}
       <nav className="bg-white shadow-md">
@@ -130,34 +110,67 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Search Icon for mobile */}
-          <div className="flex md:hidden items-center space-x-4">
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="text-[#204d9c]"
-            >
-              <Search />
-            </button>
-          </div>
-
           {/* Authentication for desktop */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link href="/login" className="text-[#204d9c] font-bold">
-              เข้าสู่ระบบ
-            </Link>
-            <Link
-              href="/register"
-              className="bg-[#204d9c] text-white py-2 px-4 rounded-lg font-bold"
-            >
-              สมัครสมาชิก
-            </Link>
-          </div>
+          {/* Authentication for desktop */}
+          {status === "authenticated" && session ? (
+            <div className="flex items-center space-x-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="outline-none">
+                  <div className="bg-[#dee4f0] w-36  rounded-2xl flex space-x-2 p-2 items-center hover:bg-[#cfd6e2] transition-colors duration-200">
+                    <UserRound className="text-white  rounded-full bg-[#204d9c] p-1" />
+                    <span className="text-[#204d9c] font-bold">
+                      {session.user.username}
+                    </span>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white shadow-lg rounded-lg mt-2">
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-gray-100 transition-colors duration-200">
+                    ข้อมูลส่วนตัว
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-gray-100 transition-colors duration-200">
+                    <Link href={"/admin-dashboard"}> ระบบจัดการ</Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    onClick={() => signOut()}
+                    className="px-4 py-2 text-red-500 hover:bg-red-50 transition-colors duration-200"
+                  >
+                    ออกจากระบบ
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-4">
+              <Link href="/login">
+                <span className="text-[#204d9c] font-bold">Login</span>
+              </Link>
+              <Link href="/register">
+                <span className="bg-[#204d9c] text-white py-2 px-4 rounded-lg font-bold">
+                  Register
+                </span>
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {/* Mobile Search Input */}
+              <div className="md:hidden  px-4 py-2">
+                <form className="flex">
+                  <input
+                    type="search"
+                    className="w-full border outline-none rounded-md p-2"
+                    placeholder="ค้นหาชื่อสิ้นค้าหรือเลขรหัส SKU"
+                  />
+                  <button className="bg-red-500 p-2 flex justify-center items-center rounded-r-md">
+                    <Search className="text-white" />
+                  </button>
+                </form>
+              </div>
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center outline-none text-[#204d9c]  px-2 py-2 rounded-lg hover:bg-slate-100">
                   <span>หมวดหมู่</span>
@@ -202,17 +215,6 @@ const Navbar = () => {
                 </span>
               </Link>
             </div>
-          </div>
-        )}
-
-        {/* Mobile Search Input */}
-        {searchOpen && (
-          <div className="md:hidden px-4 py-2">
-            <input
-              type="search"
-              className="w-full border outline-none rounded-md p-2"
-              placeholder="ค้นหาชื่อสิ้นค้าหรือเลขรหัส SKU"
-            />
           </div>
         )}
       </nav>
