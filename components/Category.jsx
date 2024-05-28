@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -9,26 +10,6 @@ import Image from "next/image";
 import cate1 from "../public/category/package.png";
 
 const Category = () => {
-  const menu = [
-    {
-      catename: "บรรจุภัณฑ์เฟสท์",
-
-      path: "/",
-    },
-    {
-      catename: "อุปกรณ์สำนักงาน",
-      path: "/",
-    },
-    {
-      catename: "ผลิตภัณฑ์ทำความสะอาด",
-      path: "/",
-    },
-    {
-      catename: "test",
-      path: "/",
-    },
-  ];
-
   const settings = {
     dots: true,
     infinite: true,
@@ -39,6 +20,23 @@ const Category = () => {
     autoplaySpeed: 3000,
   };
 
+  const [category, setCategory] = useState([]);
+
+  const fetchCategory = async () => {
+    try {
+      const res = await axios.get(
+        process.env.NEXT_PUBLIC_API_URL + "/api/category"
+      );
+      setCategory(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
   return (
     <>
       <div className="mt-10 md:mt-5">
@@ -48,11 +46,14 @@ const Category = () => {
         {/* Carousel for small screens */}
         <div className="block sm:hidden">
           <Slider {...settings}>
-            {menu.map((item, index) => (
-              <div key={index} className="p-4">
-                <div className="bg-[#f1f0ed] p-10 text-center rounded-md font-medium hover:shadow-2xl delay-100 transition-all ease-in-out duration-300">
-                  <Link href={item.path} className="font-bold">
-                    {item.catename}
+            {category.map((cateItem) => (
+              <div key={cateItem.categoryId} className="p-4">
+                <div className="bg-[#f1f0ed] p-10 text-center rounded-md font-medium hover:shadow-2xl transition-all ease-in-out duration-300">
+                  <Link
+                    href={`/category/${cateItem.nameSlug}`}
+                    className="font-bold"
+                  >
+                    {cateItem.name}
                   </Link>
                 </div>
               </div>
@@ -60,14 +61,14 @@ const Category = () => {
           </Slider>
         </div>
         {/* Grid for medium and larger screens */}
-        <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center">
-          {menu.map((item, index) => (
+        <div className="hidden sm:grid   grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+          {category.map((item) => (
             <div
-              key={index}
+              key={item.categoryId}
               className="bg-[#f1f0ed] p-10 text-center rounded-md font-medium hover:shadow-2xl delay-100 transition-all ease-in-out duration-300"
             >
-              <Link href={item.path} className="font-bold">
-                {item.catename}
+              <Link href={`/category/${item.nameSlug}`} className="font-bold">
+                {item.name}
               </Link>
             </div>
           ))}

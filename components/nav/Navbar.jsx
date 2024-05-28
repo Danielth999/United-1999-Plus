@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../public/logo/logo-real-no-bg.png";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import styles from "./Logo.module.css";
 import {
   Search,
   LayoutGrid,
@@ -18,35 +20,28 @@ import {
   UserRound,
 } from "lucide-react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuPortal,
-  DropdownMenuSubContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 import Header from "./Header";
-
-const menu = [
-  { title: "ผลิตภัณฑ์เฟสท์", subMenu: ["ทดสอบ 1", "ทดสอบ 2", "ทดสอบ 3"] },
-  { title: "อุปกรณ์สำนักงาน", subMenu: ["ทดสอบ 1", "ทดสอบ 2", "ทดสอบ 3"] },
-  { title: "ผลิตภัณฑ์ทำความสะอาด", subMenu: ["ทดสอบ 1", "ทดสอบ 2", "ทดสอบ 3"] },
-  { title: "อุปกรณ์สำนักงาน", subMenu: ["ทดสอบ 1", "ทดสอบ 2", "ทดสอบ 3"] },
-];
+import Dropdown from "./Dropdown";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [cate, setCate] = useState([]);
   const { data: session, status } = useSession();
   const router = useRouter();
   console.log(session);
-
-
+  const fetchCategory = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/category`
+      );
+      setCate(res.data);
+    } catch (error) {
+      console.log("error is", error);
+    }
+  };
+  useEffect(() => {
+    fetchCategory();
+  }, []);
   return (
     <>
       <Header />
@@ -63,35 +58,15 @@ const Navbar = () => {
               </button>
             </div>
             <Link href="/">
-              <Image src={logo} width={50} height={50} alt="logo" />
+              <Image
+                src={logo}
+                width={50}
+                height={50}
+                className={styles.logo}
+                alt="logo"
+              />
             </Link>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="hidden md:flex items-center outline-none text-[#204d9c] font-bold px-2 py-2 md:px-4 md:py-2 rounded-lg hover:bg-slate-100">
-                <LayoutGrid className="text-[#204d9c] mr-1" />
-                <span className="hidden md:inline">หมวดหมู่</span>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white shadow-lg rounded-md mt-2 p-2">
-                {menu.map((item) => (
-                  <DropdownMenuSub key={item.title}>
-                    <DropdownMenuSubTrigger className="hover:bg-gray-100 px-4 py-2 rounded-md flex items-center">
-                      {item.title}
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                      <DropdownMenuSubContent className="bg-white shadow-lg rounded-md mt-2 p-2">
-                        {item.subMenu.map((subItem, index) => (
-                          <DropdownMenuItem
-                            key={index}
-                            className="hover:bg-gray-100 px-4 py-2 rounded-md"
-                          >
-                            {subItem}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                  </DropdownMenuSub>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Dropdown />
           </div>
 
           <div className="hidden md:flex items-center h-[70px] flex-1 justify-center">
@@ -106,34 +81,24 @@ const Navbar = () => {
           </div>
 
           {/* Authentication for desktop */}
-          {/* Authentication for desktop */}
           {status === "authenticated" && session ? (
             <div className="flex items-center space-x-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none">
-                  <div className="bg-[#dee4f0] w-36  rounded-2xl flex space-x-2 p-2 items-center hover:bg-[#cfd6e2] transition-colors duration-200">
-                    <UserRound className="text-white  rounded-full bg-[#204d9c] p-1" />
-                    <span className="text-[#204d9c] font-bold">
-                      {session.user.username}
-                    </span>
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white shadow-lg rounded-lg mt-2">
-                  <DropdownMenuItem className="px-4 py-2 hover:bg-gray-100 transition-colors duration-200">
-                    ข้อมูลส่วนตัว
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="px-4 py-2 hover:bg-gray-100 transition-colors duration-200">
-                    <Link href={"/admin-dashboard"}> ระบบจัดการ</Link>
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem
-                    onClick={() => signOut()}
-                    className="px-4 py-2 text-red-500 hover:bg-red-50 transition-colors duration-200"
-                  >
-                    ออกจากระบบ
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="dropdown dropdown-hover">
+                <div tabIndex={0} role="button" className="btn bg-[#dee4f0] m-1 rounded-full text-[#204d9c]">
+                  {session.user.username}
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <Link href={'/#'}>ข้อมูลส่วนตัว</Link>
+                  </li>
+                  <li>
+                    <Link  href={'/#'}>Item 2</Link>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
             <div className="flex items-center space-x-4">
@@ -166,32 +131,6 @@ const Navbar = () => {
                   </button>
                 </form>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center outline-none text-[#204d9c]  px-2 py-2 rounded-lg hover:bg-slate-100">
-                  <span>หมวดหมู่</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white shadow-lg rounded-md mt-2 p-2">
-                  {menu.map((item) => (
-                    <DropdownMenuSub key={item.title}>
-                      <DropdownMenuSubTrigger className="hover:bg-gray-100 px-4 py-2 rounded-md flex items-center">
-                        {item.title}
-                      </DropdownMenuSubTrigger>
-                      <DropdownMenuPortal>
-                        <DropdownMenuSubContent className="bg-white shadow-lg rounded-md mt-2 p-2">
-                          {item.subMenu.map((subItem, index) => (
-                            <DropdownMenuItem
-                              key={index}
-                              className="hover:bg-gray-100 px-4 py-2 rounded-md"
-                            >
-                              {subItem}
-                            </DropdownMenuItem>
-                          ))}
-                        </DropdownMenuSubContent>
-                      </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
 
               <Link href="/login">
                 <span className="block px-3 py-2 rounded-md text-base font-medium text-[#204d9c] hover:bg-gray-100">

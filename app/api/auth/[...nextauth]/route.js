@@ -17,13 +17,6 @@ export const authOptions = {
         // Find the user by email
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-          include: {
-            roles: {
-              include: {
-                role: true,
-              },
-            },
-          },
         });
 
         if (!user) {
@@ -31,20 +24,21 @@ export const authOptions = {
           throw new Error("User not found");
         }
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
 
         if (!isPasswordValid) {
           console.error("Invalid password");
           throw new Error("Invalid password");
         }
 
-        const userRole = user.roles[0]?.role.roleName || null;
-
         return {
           id: user.userId,
           username: user.username,
           email: user.email,
-          role: userRole,
+          role: user.roles,
         };
       },
     }),

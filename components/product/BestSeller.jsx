@@ -5,19 +5,19 @@ import Link from "next/link";
 const Recomend = () => {
   const [product, setProduct] = useState([]);
 
-  const fetchProduct = async () => {
-    try {
-      const res = await fetch("");
-      const data = await res.json();
-      setProduct(data);
-    } catch (error) {
-      console.log("error", error);  
-    }
-  };
+  // const fetchProduct = async () => {
+  //   try {
+  //     const res = await fetch("");
+  //     const data = await res.json();
+  //     setProduct(data);
+  //   } catch (error) {
+  //     console.log("error", error);  
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
+  // useEffect(() => {
+  //   fetchProduct();
+  // }, []);
 
   return (
     <>

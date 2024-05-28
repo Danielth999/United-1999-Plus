@@ -1,15 +1,8 @@
 import React from "react";
 import Navbar from "@/components/nav/Navbar";
 import Image from "next/image";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import Footer from "@/components/Footer";
+
 const ProductPage = () => {
   return (
     <>
@@ -187,33 +180,15 @@ const ProductPage = () => {
             </div>
           </div>
           <div className="flex justify-center  mt-10 ">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem className="">
-                  <PaginationLink href="#" isActive>
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+            <div className="join">
+              <button className="join-item btn">«</button>
+              <button className="join-item btn">Page 22</button>
+              <button className="join-item btn">»</button>
+            </div>
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 };
