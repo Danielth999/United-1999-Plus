@@ -6,7 +6,7 @@ import logo from "../../public/logo/logo-real-no-bg.png";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import styles from "./logo.module.css";
+
 import {
   Search,
   LayoutGrid,
@@ -58,13 +58,7 @@ const Navbar = () => {
               </button>
             </div>
             <Link href="/">
-              <Image
-                src={logo}
-                width={50}
-                height={50}
-                className={styles.logo}
-                alt="logo"
-              />
+              <Image src={logo} width={50} height={50} alt="logo" />
             </Link>
             <Dropdown />
           </div>
@@ -84,7 +78,11 @@ const Navbar = () => {
           {status === "authenticated" && session ? (
             <div className="flex items-center space-x-4">
               <div className="dropdown dropdown-hover">
-                <div tabIndex={0} role="button" className="btn bg-[#dee4f0] m-1 rounded-full text-[#204d9c]">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn bg-[#dee4f0] m-1 rounded-full text-[#204d9c]"
+                >
                   {session.user.username}
                 </div>
                 <ul
@@ -92,10 +90,10 @@ const Navbar = () => {
                   className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                 >
                   <li>
-                    <Link href={'/#'}>ข้อมูลส่วนตัว</Link>
+                    <Link href={"/#"}>ข้อมูลส่วนตัว</Link>
                   </li>
                   <li>
-                    <Link  href={'/#'}>Item 2</Link>
+                    <Link href={"/#"}>Item 2</Link>
                   </li>
                 </ul>
               </div>
