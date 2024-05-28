@@ -58,7 +58,13 @@ const Navbar = () => {
               </button>
             </div>
             <Link href="/">
-              <Image src={logo} width={50} height={50} alt="logo" />
+              <Image
+                src={logo}
+                width={50}
+                height={50}
+                alt="logo"
+                className="w-auto h-auto"
+              />
             </Link>
             <Dropdown />
           </div>
