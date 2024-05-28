@@ -6,7 +6,7 @@ import logo from "../../public/logo/logo-real-no-bg.png";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import styles from "./Logo.module.css";
+import styles from "./logo.module.css";
 import {
   Search,
   LayoutGrid,
