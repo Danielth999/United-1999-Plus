@@ -28,7 +28,8 @@ const Navbar = () => {
   const [cate, setCate] = useState([]);
   const { data: session, status } = useSession();
   const router = useRouter();
-  console.log(session);
+  // console.log(session);
+
   const fetchCategory = async () => {
     try {
       const res = await axios.get(
@@ -39,9 +40,11 @@ const Navbar = () => {
       console.log("error is", error);
     }
   };
+
   useEffect(() => {
     fetchCategory();
-  }, []);
+  }, []); // กำหนด dependencies เป็นค่าว่าง
+
   return (
     <>
       <Header />
@@ -83,7 +86,7 @@ const Navbar = () => {
           {/* Authentication for desktop */}
           {status === "authenticated" && session ? (
             <div className="flex items-center space-x-4">
-              <div className="dropdown dropdown-hover">
+              <div className="dropdown dropdown-left dropdown-end dropdown-hover">
                 <div
                   tabIndex={0}
                   role="button"
@@ -99,7 +102,12 @@ const Navbar = () => {
                     <Link href={"/#"}>ข้อมูลส่วนตัว</Link>
                   </li>
                   <li>
-                    <Link href={"/#"}>Item 2</Link>
+                    <button
+                      onClick={() => signOut()}
+                      className="btn btn-ghost text-red-500 btn-sm"
+                    >
+                      ออกจากระบบ
+                    </button>
                   </li>
                 </ul>
               </div>
